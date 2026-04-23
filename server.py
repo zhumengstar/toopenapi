@@ -20,7 +20,7 @@ from urllib.error import HTTPError, URLError
 class Config:
     """应用配置"""
     PORT = int(os.getenv("PORT", "8787"))
-    GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "AIzaSyAjb8xsA56GP3UEYp15iWnLQmWF_sXyyjM")
+    GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")  # 必须设置
     GOOGLE_API_BASE = "https://generativelanguage.googleapis.com/v1beta"
     DEFAULT_MODEL = os.getenv("DEFAULT_MODEL", "gemma-4-31b-it")
     CACHE_DURATION = int(os.getenv("CACHE_DURATION", "300"))  # 模型缓存时间（秒）
@@ -384,11 +384,24 @@ class ProxyHandler(BaseHTTPRequestHandler):
             self._send_error("Invalid JSON body", 400, "invalid_request_error")
             return None
     
-    def _get_api_key(self) -> str:
-        """获取 API Key"""
+    def _get_api_key(self, request_body: Dict[str, Any] = None) -> str:
+        """获取 API Key，优先级：请求体 > Header > 环境变量"""
+        # 1. 从请求体获取
+        if request_body and request_body.get("api_key"):
+            return request_body["api_key"]
+        
+        # 2. 从 Authorization Header 获取
         auth_header = self.headers.get("Authorization", "")
         api_key = auth_header.replace("Bearer ", "").strip()
-        return api_key if api_key else config.GOOGLE_API_KEY
+        if api_key:
+            return api_key
+        
+        # 3. 从环境变量获取
+        if config.GOOGLE_API_KEY:
+            return config.GOOGLE_API_KEY
+        
+        # 4. 无可用 key
+        return ""
     
     def do_OPTIONS(self):
         """处理 CORS 预检请求"""
@@ -578,7 +591,7 @@ def print_banner():
 
     ┌─ Config ──────────────────────────────────────────────────┐
     │  Port:         {config.PORT:<46}│
-    │  API Key:      {config.GOOGLE_API_KEY[:20]}...                     │
+    │  API Key:      {(config.GOOGLE_API_KEY[:20] + '...') if config.GOOGLE_API_KEY else 'Not Set':<30}│
     │  Default:       {config.DEFAULT_MODEL:<46}│
     │  Timeout:      {config.REQUEST_TIMEOUT}s                                        │
     │  SSL Verify:   {str(config.SKIP_SSL_VERIFY):<46}│
@@ -598,6 +611,12 @@ def print_banner():
 def main():
     """启动服务"""
     print_banner()
+    
+    if config.GOOGLE_API_KEY:
+        print(f"   API Key:      {config.GOOGLE_API_KEY[:20]}... (from env)")
+    else:
+        print("   API Key:      Not set (from request)")
+    
     logger.info(f"Starting server on port {config.PORT}")
     
     server = HTTPServer(("0.0.0.0", config.PORT), ProxyHandler)

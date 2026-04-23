@@ -70,7 +70,7 @@ curl http://localhost:8787/health
 | 变量 | 默认值 | 说明 |
 |------|--------|------|
 | `PORT` | `8787` | 服务端口 |
-| `GOOGLE_API_KEY` | - | Google AI API Key |
+| `GOOGLE_API_KEY` | **必须设置** | Google AI API Key |
 | `DEFAULT_MODEL` | `gemma-4-31b-it` | 默认模型 |
 | `CACHE_DURATION` | `300` | 模型缓存时间（秒）|
 | `REQUEST_TIMEOUT` | `120` | 请求超时（秒）|
@@ -79,6 +79,40 @@ curl http://localhost:8787/health
 | `CORS_ORIGINS` | `*` | CORS 允许的来源 |
 | `MAX_RETRIES` | `3` | 最大重试次数 |
 | `SKIP_SSL_VERIFY` | `true` | 跳过 SSL 验证 |
+
+### 设置 API Key
+
+API Key 支持三种配置方式（按优先级排序）：
+
+**方式一：请求体传递（推荐）**
+```bash
+curl -X POST http://localhost:8787/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "gemma-4-31b-it",
+    "api_key": "你的Google AI API密钥",
+    "messages": [{"role": "user", "content": "Hello!"}]
+  }'
+```
+
+**方式二：Header 传递**
+```bash
+curl -X POST http://localhost:8787/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer 你的Google AI API密钥" \
+  -d '{
+    "model": "gemma-4-31b-it",
+    "messages": [{"role": "user", "content": "Hello!"}]
+  }'
+```
+
+**方式三：环境变量**
+```bash
+export GOOGLE_API_KEY=你的Google AI API密钥
+python3 server.py
+```
+
+> ⚠️ **重要**: API Key 支持多种配置方式（见下文），请勿将密钥硬编码在代码中！
 
 ## 使用示例
 
