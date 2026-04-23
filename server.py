@@ -502,7 +502,11 @@ class ProxyHandler(BaseHTTPRequestHandler):
             if request_body is None:
                 return
             
-            api_key = self._get_api_key()
+            api_key = self._get_api_key(request_body)
+            if not api_key:
+                self._send_error("API key is required", 401, "authentication_error")
+                return
+            
             google_request, model = convert_openai_to_google(request_body)
             
             # 检查是否需要流式响应
