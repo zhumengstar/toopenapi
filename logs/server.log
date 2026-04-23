@@ -1,0 +1,7 @@
+2026-04-24 00:33:04,234 - INFO - Starting server on port 8787
+2026-04-24 00:33:04,241 - INFO - Server started at http://0.0.0.0:8787
+2026-04-24 00:33:19,936 - INFO - Request: {"timestamp": "2026-04-24T00:33:19.936739", "method": "GET", "path": "/health", "status": 200, "duration_ms": 1576.06}
+2026-04-24 00:33:23,046 - INFO - Fetched 50 models from Google API
+2026-04-24 00:33:23,047 - INFO - Request: {"timestamp": "2026-04-24T00:33:23.047220", "method": "GET", "path": "/v1/models", "status": 200, "duration_ms": 3088.13}
+2026-04-24 00:33:26,513 - INFO - Request: {"timestamp": "2026-04-24T00:33:26.513185", "method": "GET", "path": "/health", "status": 200, "duration_ms": 1597.46}
+2026-04-24 00:33:26,537 - INFO - Request: {"timestamp": "2026-04-24T00:33:26.537469", "method": "GET", "path": "/v1/models", "status": 200, "duration_ms": 0.38}
