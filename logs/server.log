@@ -5,3 +5,28 @@
 2026-04-24 00:33:23,047 - INFO - Request: {"timestamp": "2026-04-24T00:33:23.047220", "method": "GET", "path": "/v1/models", "status": 200, "duration_ms": 3088.13}
 2026-04-24 00:33:26,513 - INFO - Request: {"timestamp": "2026-04-24T00:33:26.513185", "method": "GET", "path": "/health", "status": 200, "duration_ms": 1597.46}
 2026-04-24 00:33:26,537 - INFO - Request: {"timestamp": "2026-04-24T00:33:26.537469", "method": "GET", "path": "/v1/models", "status": 200, "duration_ms": 0.38}
+2026-04-24 01:16:37,018 - ERROR - Failed to fetch models: HTTP Error 403: Forbidden
+2026-04-24 01:16:37,020 - WARNING - Using stale cache due to fetch failure
+2026-04-24 01:16:37,021 - INFO - Request: {"timestamp": "2026-04-24T01:16:37.021682", "method": "GET", "path": "/v1/models", "status": 200, "duration_ms": 1627.73}
+2026-04-24 01:16:42,061 - ERROR - Failed to fetch models: HTTP Error 403: Forbidden
+2026-04-24 01:16:42,061 - WARNING - Using stale cache due to fetch failure
+2026-04-24 01:16:42,062 - INFO - Request: {"timestamp": "2026-04-24T01:16:42.062047", "method": "GET", "path": "/v1/models", "status": 200, "duration_ms": 1337.12}
+2026-04-24 01:16:50,210 - ERROR - Failed to fetch models: HTTP Error 403: Forbidden
+2026-04-24 01:16:50,211 - WARNING - Using stale cache due to fetch failure
+2026-04-24 01:16:50,212 - INFO - Request: {"timestamp": "2026-04-24T01:16:50.212119", "method": "GET", "path": "/v1/models", "status": 200, "duration_ms": 1593.61}
+2026-04-26 18:55:07,188 - ERROR - Failed to fetch models: HTTP Error 400: Bad Request
+2026-04-26 18:55:07,192 - WARNING - Using stale cache due to fetch failure
+2026-04-26 18:55:07,195 - INFO - Request: {"timestamp": "2026-04-26T18:55:07.195314", "method": "GET", "path": "/v1/models", "status": 200, "duration_ms": 803.56}
+2026-04-26 18:55:07,241 - INFO - Request: {"timestamp": "2026-04-26T18:55:07.241240", "method": "GET", "path": "/favicon.ico", "status": 404, "duration_ms": 0.19}
+2026-04-26 18:55:37,495 - ERROR - Failed to fetch models: HTTP Error 400: Bad Request
+2026-04-26 18:55:37,495 - WARNING - Using stale cache due to fetch failure
+2026-04-26 18:55:37,498 - INFO - Request: {"timestamp": "2026-04-26T18:55:37.498132", "method": "GET", "path": "/v1/models", "status": 200, "duration_ms": 770.7}
+2026-04-26 19:00:11,796 - INFO - Request: {"timestamp": "2026-04-26T19:00:11.796492", "method": "POST", "path": "/v1/models", "status": 200, "duration_ms": 1.27}
+2026-04-26 19:00:13,967 - INFO - Request: {"timestamp": "2026-04-26T19:00:13.967670", "method": "POST", "path": "/v1/models", "status": 200, "duration_ms": 0.24}
+2026-04-26 19:00:18,931 - INFO - Request: {"timestamp": "2026-04-26T19:00:18.931820", "method": "POST", "path": "/v1/models", "status": 200, "duration_ms": 0.18}
+2026-04-26 19:00:29,264 - ERROR - Failed to fetch models: HTTP Error 400: Bad Request
+2026-04-26 19:00:29,265 - WARNING - Using stale cache due to fetch failure
+2026-04-26 19:00:29,266 - INFO - Request: {"timestamp": "2026-04-26T19:00:29.266016", "method": "GET", "path": "/v1/models", "status": 200, "duration_ms": 812.11}
+2026-04-26 19:02:57,575 - ERROR - Failed to fetch models: HTTP Error 400: Bad Request
+2026-04-26 19:02:57,576 - WARNING - Using stale cache due to fetch failure
+2026-04-26 19:02:57,579 - INFO - Request: {"timestamp": "2026-04-26T19:02:57.578901", "method": "GET", "path": "/v1/models", "status": 200, "duration_ms": 766.75}
