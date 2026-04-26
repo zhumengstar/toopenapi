@@ -1,0 +1,27 @@
+2026-04-26 19:22:01,654 - INFO - Starting server on port 8787
+2026-04-26 19:22:01,910 - INFO - Server started at http://0.0.0.0:8787
+2026-04-26 19:22:10,273 - ERROR - Failed to fetch models: HTTP Error 400: Bad Request
+2026-04-26 19:22:10,274 - INFO - Request: {"timestamp": "2026-04-26T19:22:10.274047", "method": "GET", "path": "/v1/models", "status": 200, "duration_ms": 770.36}
+2026-04-26 19:22:12,799 - ERROR - Failed to fetch models: HTTP Error 400: Bad Request
+2026-04-26 19:22:12,800 - INFO - Request: {"timestamp": "2026-04-26T19:22:12.799978", "method": "GET", "path": "/v1/models", "status": 200, "duration_ms": 762.37}
+2026-04-26 19:22:15,198 - ERROR - Failed to fetch models: HTTP Error 400: Bad Request
+2026-04-26 19:22:15,199 - INFO - Request: {"timestamp": "2026-04-26T19:22:15.199622", "method": "GET", "path": "/v1/models", "status": 200, "duration_ms": 751.71}
+2026-04-26 19:22:17,929 - ERROR - Failed to fetch models: HTTP Error 400: Bad Request
+2026-04-26 19:22:17,929 - INFO - Request: {"timestamp": "2026-04-26T19:22:17.929952", "method": "GET", "path": "/v1/models", "status": 200, "duration_ms": 754.04}
+2026-04-26 19:27:19,922 - INFO - Starting server on port 8787
+2026-04-26 19:27:20,193 - INFO - Server started at http://0.0.0.0:8787
+2026-04-26 19:27:27,306 - ERROR - Failed to fetch models: HTTP Error 400: Bad Request
+2026-04-26 19:27:27,307 - INFO - Request: {"timestamp": "2026-04-26T19:27:27.307078", "method": "GET", "path": "/v1/models", "status": 200, "duration_ms": 772.04}
+2026-04-26 19:29:21,573 - INFO - Starting server on port 8787
+2026-04-26 19:29:21,851 - INFO - Server started at http://0.0.0.0:8787
+2026-04-26 19:29:28,860 - ERROR - Failed to fetch models: HTTP Error 400: Bad Request
+2026-04-26 19:29:28,861 - INFO - Request: {"timestamp": "2026-04-26T19:29:28.861529", "method": "GET", "path": "/v1/models", "status": 200, "duration_ms": 787.93}
+2026-04-26 19:29:32,537 - ERROR - Failed to fetch models: HTTP Error 400: Bad Request
+2026-04-26 19:29:32,538 - INFO - Request: {"timestamp": "2026-04-26T19:29:32.538612", "method": "GET", "path": "/v1/models", "status": 200, "duration_ms": 778.12}
+2026-04-26 19:29:35,871 - ERROR - Failed to fetch models: HTTP Error 400: Bad Request
+2026-04-26 19:29:35,872 - INFO - Request: {"timestamp": "2026-04-26T19:29:35.872686", "method": "GET", "path": "/v1/models", "status": 200, "duration_ms": 775.61}
+2026-04-26 19:33:59,023 - INFO - Starting server on port 8787
+2026-04-26 19:33:59,259 - INFO - Server started at http://0.0.0.0:8787
+2026-04-26 19:34:12,421 - INFO - Fetched AIzaSyAeWn01eOs9qWI_nxzBd47O8FwLYAdMwzY apikey from Google API
+2026-04-26 19:34:12,421 - ERROR - Failed to fetch models: HTTP Error 400: Bad Request
+2026-04-26 19:34:12,422 - INFO - Request: {"timestamp": "2026-04-26T19:34:12.422207", "method": "GET", "path": "/v1/models", "status": 200, "duration_ms": 792.59}

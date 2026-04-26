@@ -13,7 +13,7 @@ sleep 1
 # 检查是否还有进程在运行
 if lsof -i :8787 > /dev/null 2>&1; then
     echo "❌ Server is still running, forcing kill..."
-    pkill -9 -f "python3 server.py" 2>/dev/null
+    lsof -t -i :8787 | xargs kill -9
     sleep 1
 fi
 

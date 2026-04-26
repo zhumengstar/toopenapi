@@ -1,0 +1,134 @@
+[0;32m[INFO][0m Test log will be written to: logs/test_report.log
+
+[0;34m============================================================[0m
+[0;34mStep 1: Stop Existing Service[0m
+[0;34m============================================================[0m
+
+[0;32m[INFO][0m Port 8787 is in use, stopping existing service
+Stopping server...
+❌ Server is still running, forcing kill...
+✅ Server stopped successfully
+
+[0;34m============================================================[0m
+[0;34mStep 2: Start New Service[0m
+[0;34m============================================================[0m
+
+[0;32m[INFO][0m Starting service with new API key...
+[0;32m[INFO][0m Service started with PID: 35168
+[0;32m[INFO][0m Waiting for service to be ready...
+[0;32m[SUCCESS][0m Service is listening on port 8787
+
+[0;34m============================================================[0m
+[0;34mStep 3: Running Tests[0m
+[0;34m============================================================[0m
+
+
+[0;34m============================================================[0m
+[0;34mTest 1: Health Check Interface[0m
+[0;34m============================================================[0m
+
+[0;32m[INFO][0m Sending GET request to http://localhost:8787/health
+[0;32m[SUCCESS][0m Health check successful
+[0;32m[INFO][0m Response: {"status": "healthy", "timestamp": "2026-04-26T21:32:36.752752", "google_api_reachable": true}
+[0;32m[INFO][0m Response time: s
+[1;33m[WARN][0m Google API is not reachable
+
+[0;34m============================================================[0m
+[0;34mTest 2: Model List Interface[0m
+[0;34m============================================================[0m
+
+[0;32m[INFO][0m Sending GET request to http://localhost:8787/v1/models
+[0;32m[SUCCESS][0m Model list retrieved successfully
+[0;32m[INFO][0m Response time: s
+[0;32m[SUCCESS][0m Retrieved 50 models
+[0;32m[INFO][0m First few models:
+{
+    "object": "list",
+    "data": [
+        {
+            "id": "gemini-2.5-flash",
+            "object": "model",
+            "created": 1700000000,
+            "owned_by": "google",
+            "permission": [],
+            "root": "gemini-2.5-flash",
+            "display_name": "Gemini 2.5 Flash",
+            "description": "Stable version of Gemini 2.5 Flash, our mid-size multimodal model that supports up to 1 million tokens, released in June of 2025.",
+            "version": "001"
+        },
+        {
+            "id": "gemini-2.5-pro",
+            "object": "model",
+            "created": 1700000000,
+            "owned_by": "google",
+            "permission": [],
+            "root": "gemini-2.5-pro",
+            "display_name": "Gemini 2.5 Pro",
+            "description": "Stable release (June 17th, 2025) of Gemini 2.5 Pro",
+            "version": "2.5"
+        },
+        {
+            "id": "gemini-2.0-flash",
+            "object": "model",
+            "created": 1700000000,
+            "owned_by": "google",
+
+[0;34m============================================================[0m
+[0;34mTest 3: Chat Completions (Non-Streaming)[0m
+[0;34m============================================================[0m
+
+[0;32m[INFO][0m Sending POST request to http://localhost:8787/v1/chat/completions (non-streaming)
+[0;32m[SUCCESS][0m Chat completion successful
+[0;32m[INFO][0m Response time: s
+[0;32m[SUCCESS][0m Response format is correct OpenAI format
+[0;32m[INFO][0m Response preview:
+{
+    "id": "chatcmpl-1777210370992",
+    "object": "chat.completion",
+    "created": 1777210370,
+    "model": "gemma-4-31b-it",
+    "choices": [
+        {
+            "index": 0,
+            "message": {
+                "role": "assistant",
+                "content": "*   User's input: \"Hello! Who are you?\"\n    *   Intent: The user wants to know my identity and purpose.\n\n    *   I am a large language model trained by Google.\n\n    *   *Draft 1 (Simple):* Hello! I am a large language model trained by Google.\n    *   *Draft 2 (More detailed):* Hi there! I'm an AI, a large language model developed by Google. I can help you with writing, learning, coding, and answering questions.\n    *   *Draft 3 (Friendly and versatile):* Hello! I am a large language model, trained by Google. Think of me as a knowledgeable assistant that can help you brainstorm ideas, translate languages, write stories, or just have a conversation. How can I help you today?Hello! I am a large language model, trained by Google. \n\nYou can think of me as a knowledgeable assistant that can help you with a wide variety of tasks, such as:\n\n*   **Answering questions** on almost any topic.\n*   **Writing** emails, essays, stories, or code.\n*   **Summarizing** long articles or documents.\n*   **Translating** languages.\n*   **Brainstorming** ideas for projects or gifts.\n*   **Just chatting** if you're bored!\n\nHow can I help you today?"
+            },
+            "finish_reason": "stop"
+        }
+    ],
+    "usage": {
+        "prompt_tokens": 7,
+        "completion_tokens": 122,
+        "total_tokens": 302
+    }
+[0;32m[SUCCESS][0m Response contains assistant content
+
+[0;34m============================================================[0m
+[0;34mTest 4: Chat Completions (Streaming/SSE)[0m
+[0;34m============================================================[0m
+
+[0;32m[INFO][0m Sending POST request to http://localhost:8787/v1/chat/completions (streaming)
+[0;32m[SUCCESS][0m Streaming response received
+[0;32m[INFO][0m Stream duration: s
+[0;32m[SUCCESS][0m SSE format is correct
+[0;32m[INFO][0m Number of chunks: 1
+[0;32m[SUCCESS][0m Stream completed with [DONE] marker
+[0;32m[INFO][0m First few chunks:
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   206    0     0  100   206      0    169  0:00:01  0:00:01 --:--:--   170100   206    0     0  100   206      0     92  0:00:02  0:00:02 --:--:--    93100   206    0     0  100   206      0     63  0:00:03  0:00:03 --:--:--    63data: {"id": "chatcmpl-1777210375795", "object": "chat.completion.chunk", "created": 1777210375, "model": "gemma-4-31b-it", "choices": [{"index": 0, "delta": {"content": "The user wants me to count to 5.\n1, 2, 3, 4, 5.1, 2, 3, 4, 5"}, "finish_reason": "stop"}]}
+
+data: [DONE]
+
+[0;34m============================================================[0m
+[0;34mTest Summary Report[0m
+[0;34m============================================================[0m
+
+Total Tests: 4
+Passed: 3
+Failed: 1
+[0;31m[ERROR][0m Some tests failed. Please check the logs.
+[0;32m[INFO][0m Full test report available at: logs/test_report.log
+[0;32m[INFO][0m Server logs available at: logs/server.log
+[0;32m[INFO][0m Tests completed at Sun Apr 26 21:32:57 CST 2026
