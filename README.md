@@ -24,17 +24,74 @@ python3 server.py
 ```bash
 # 启动服务
 ./start.sh
- 
+
 # 停止服务
 ./stop.sh
- 
+
 # 重启服务
 ./restart.sh
- 
+
 # 查看状态
 ./status.sh
 ```
- 
+
+### 方式三：Docker 容器化部署（推荐）
+
+#### 快速启动
+```bash
+# 1. 配置环境变量
+cp .env.example .env
+nano .env  # 设置 GOOGLE_API_KEY
+
+# 2. 一键部署（推荐）
+./docker-start.sh
+
+# 或使用 Docker Compose
+docker-compose up -d
+```
+
+#### Docker 管理命令
+```bash
+# 查看容器状态
+docker-compose ps
+
+# 查看实时日志
+docker-compose logs -f
+
+# 重启服务
+docker-compose restart
+
+# 停止服务
+docker-compose down
+```
+
+#### 使用 Makefile
+```bash
+# 查看所有命令
+make help
+
+# 构建并运行
+make build && make run
+
+# 查看状态
+make status
+
+# 运行测试
+make test
+
+# 完全清理
+make clean
+```
+
+#### 开发模式
+```bash
+# 使用覆盖配置，支持热重载
+docker-compose -f docker-compose.yml -f docker-compose.override.yml up
+```
+
+详细的 Docker 部署指南请参考 [DOCKER_DEPLOY.md](DOCKER_DEPLOY.md)。
+
+## API 接口
 ### 方式三：Docker 容器化部署（推荐）
  
 #### 使用 Docker Compose（一键部署）
