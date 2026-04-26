@@ -1,0 +1,74 @@
+[Unit]
+Description=OpenAI Proxy Service for Google AI
+Documentation=https://github.com/your-repo/openai-google-proxy
+After=network.target
+Wants=network.target
+
+[Service]
+Type=exec
+User=openai-proxy
+Group=openai-proxy
+WorkingDirectory=/opt/openai-proxy
+
+# Load environment variables from file
+EnvironmentFile=-/etc/openai-proxy/env
+
+# Required environment variables (will fail if not set)
+Environment="GOOGLE_API_KEY=%GOOGLE_API_KEY%"
+Environment="PORT=%PORT%"
+Environment="LOG_LEVEL=INFO"
+Environment="LOG_FILE=/var/log/openai-proxy/async_server.log"
+Environment="PID_FILE=/run/openai-proxy/openai_proxy_async.pid"
+
+# Create PID directory
+RuntimeDirectory=openai-proxy
+RuntimeDirectoryMode=0755
+
+# Create log directory
+ExecStartPre=+/bin/mkdir -p /var/log/openai-proxy
+ExecStartPre=+/bin/chown -R openai-proxy:openai-proxy /var/log/openai-proxy
+
+# Main executable
+ExecStart=/usr/bin/python3 /opt/openai-proxy/async_server.py
+
+# Use graceful shutdown
+KillMode=mixed
+KillSignal=SIGTERM
+TimeoutStopSec=30
+
+# Restart policy
+Restart=always
+RestartSec=5
+StartLimitInterval=60
+StartLimitBurst=3
+
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/log/openai-proxy /run/openai-proxy
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+RestrictNamespaces=true
+LockPersonality=true
+MemoryDenyWriteExecute=false
+RestrictRealtime=true
+RestrictSUIDSGID=true
+RemoveIPC=true
+PrivateMounts=true
+
+# Resource limits (adjust based on your requirements)
+LimitNOFILE=65536
+LimitNPROC=4096
+
+
+# Logging
+StandardOutput=append:/var/log/openai-proxy/service.log
+StandardError=append:/var/log/openai-proxy/service.log
+SyslogIdentifier=openai-proxy
+
+[Install]
+WantedBy=multi-user.target
