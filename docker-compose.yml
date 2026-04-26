@@ -1,0 +1,210 @@
+version: '3.8'
+
+services:
+  google-ai-openai-proxy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: google-ai-openai-proxy:latest
+    container_name: google-ai-openai-proxy
+    restart: unless-stopped
+    ports:
+      - "${PORT:-8787}:8787"
+    environment:
+      # 必需：Google AI API Key
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY:-}
+
+      # 可选：服务配置
+      - PORT=8787
+      - DEFAULT_MODEL=${DEFAULT_MODEL:-gemma-4-31b-it}
+      - CACHE_DURATION=${CACHE_DURATION:-300}
+      - REQUEST_TIMEOUT=${REQUEST_TIMEOUT:-120}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - LOG_FILE=/tmp/openai_proxy.log
+      - CORS_ORIGINS=${CORS_ORIGINS:-*}
+      - MAX_RETRIES=${MAX_RETRIES:-3}
+      - SKIP_SSL_VERIFY=${SKIP_SSL_VERIFY:-true}
+
+    # 日志配置
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+    # 健康检查
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8787/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+    # 资源限制（可根据需要调整）
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 128M
+
+    # 安全选项
+    security_opt:
+      - "no-new-privileges:true"
+
+    # 只读文件系统（除了日志目录）
+    read_only: true
+    tmpfs:
+      - /tmp
+
+networks:
+  default:
+    name: google-ai-openai-proxy-net
+```
+
+# Docker 部署说明
+
+## 快速启动
+
+### 方式一：使用 docker-compose
+
+1. **设置环境变量**（创建 .env 文件）：
+```bash
+cat > .env <<EOF
+GOOGLE_API_KEY=your_google_ai_api_key_here
+PORT=8787
+LOG_LEVEL=INFO
+EOF
+```
+
+2. **启动服务**：
+```bash
+docker-compose up -d
+```
+
+3. **查看日志**：
+```bash
+docker-compose logs -f
+```
+
+4. **停止服务**：
+```bash
+docker-compose down
+```
+
+### 方式二：使用 docker run
+
+```bash
+docker build -t google-ai-openai-proxy .
+
+docker run -d \
+  --name google-ai-openai-proxy \
+  -p 8787:8787 \
+  -e GOOGLE_API_KEY=your_google_ai_api_key_here \
+  -e LOG_LEVEL=INFO \
+  --restart unless-stopped \
+  google-ai-openai-proxy
+```
+
+## 环境变量说明
+
+| 变量 | 默认值 | 说明 |
+|------|--------|------|
+| `GOOGLE_API_KEY` | - | **必需**：Google AI API Key |
+| `PORT` | `8787` | 服务端口 |
+| `DEFAULT_MODEL` | `gemma-4-31b-it` | 默认模型 |
+| `CACHE_DURATION` | `300` | 模型缓存时间（秒）|
+| `REQUEST_TIMEOUT` | `120` | 请求超时（秒）|
+| `LOG_LEVEL` | `INFO` | 日志级别 |
+| `CORS_ORIGINS` | `*` | CORS 允许的来源 |
+| `MAX_RETRIES` | `3` | 最大重试次数 |
+| `SKIP_SSL_VERIFY` | `true` | 跳过 SSL 验证 |
+
+## 验证部署
+
+1. **健康检查**：
+```bash
+curl http://localhost:8787/health
+```
+
+2. **获取模型列表**：
+```bash
+curl http://localhost:8787/v1/models
+```
+
+3. **测试聊天接口**：
+```bash
+curl http://localhost:8787/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "gemma-4-31b-it",
+    "messages": [{"role": "user", "content": "Hello!"}],
+    "stream": false
+  }'
+```
+
+## 生产环境建议
+
+1. **使用环境文件**：
+```bash
+cp .env.example .env
+# 编辑 .env 文件填入真实配置
+```
+
+2. **使用反向代理**（如 Nginx）：
+```nginx
+server {
+    listen 80;
+    server_name your-domain.com;
+
+    location / {
+        proxy_pass http://localhost:8787;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+3. **启用 SSL/TLS**（使用 Let's Encrypt）：
+```bash
+certbot --nginx -d your-domain.com
+```
+
+4. **监控和日志**：
+```bash
+# 查看实时日志
+docker-compose logs -f
+
+# 查看资源使用
+docker stats google-ai-openai-proxy
+```
+
+## 更新和重启
+
+```bash
+# 拉取最新代码
+git pull
+
+# 重新构建并启动
+docker-compose up -d --build
+
+# 清理旧镜像
+docker image prune -f
+```
+
+## 故障排查
+
+```bash
+# 查看容器状态
+docker-compose ps
+
+# 查看日志
+docker-compose logs
+
+# 进入容器
+docker exec -it google-ai-openai-proxy /bin/bash
+
+# 重启服务
+docker-compose restart

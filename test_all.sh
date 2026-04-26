@@ -56,27 +56,28 @@ test_health() {
     section "Test 1: Health Check Interface"
 
     log "Sending GET request to ${BASE_URL}/health"
-    start_time=$(date +%s.%N)
+    start_time=$(date +%s)
 
     response=$(curl -s -w "\n%{http_code}" "${BASE_URL}/health" 2>&1)
     http_code=$(echo "$response" | tail -n 1)
     body=$(echo "$response" | sed '$d')
 
-    end_time=$(date +%s.%N)
-    duration=$(python3 -c "print(f'{(float(\"$end_time\") - float(\"$start_time\")):.3f}')")
+    end_time=$(date +%s)
+    duration=$((end_time - start_time))
 
     if [ "$http_code" == "200" ]; then
         success "Health check successful"
         log "Response: $body"
         log "Response time: ${duration}s"
 
-        # Check if Google API is reachable
-        if echo "$body" | grep -qE '"google_api_reachable": ?true'; then
-          success "Google API is reachable"
-          return 0
+        # Check if Google API is reachable using Python
+        reachable=$(echo "$body" | python3 -c "import sys, json; data=json.load(sys.stdin); print('yes' if data.get('google_api_reachable') == True else 'no')" 2>/dev/null || echo "no")
+        if [ "$reachable" == "yes" ]; then
+            success "Google API is reachable"
+            return 0
         else
-          warn "Google API is not reachable"
-          return 1
+            warn "Google API is not reachable"
+            return 1
         fi
     else
         error "Health check failed with HTTP code: $http_code"
@@ -89,23 +90,23 @@ test_models() {
     section "Test 2: Model List Interface"
 
     log "Sending GET request to ${BASE_URL}/v1/models"
-    start_time=$(date +%s.%N)
+    start_time=$(date +%s)
 
     response=$(curl -s -w "\n%{http_code}" "${BASE_URL}/v1/models" 2>&1)
     http_code=$(echo "$response" | tail -n 1)
     body=$(echo "$response" | sed '$d')
 
-    end_time=$(date +%s.%3N)
-    duration=$(awk "BEGIN {print ($end_time - $start_time)/1000}")
+    end_time=$(date +%s)
+    duration=$((end_time - start_time))
 
     if [ "$http_code" == "200" ]; then
         success "Model list retrieved successfully"
         log "Response time: ${duration}s"
 
-        # Check if models are present
-        model_count=$(echo "$body" | python3 -c "import sys, json; data=json.load(sys.stdin); print(len(data.get('data', [])))" 2>/dev/null || echo "0")
+        	# Check if models are present
+        	model_count=$(echo "$body" | python3 -c "import sys, json; data=json.load(sys.stdin); d=data.get('data', []); print(len(d) if isinstance(d, list) else 0)" 2>/dev/null || echo "0")
 
-        if [ "$model_count" -gt 0 ]; then
+        	if [ "$model_count" -gt 0 ]; then
             success "Retrieved $model_count models"
             log "First few models:"
             echo "$body" | python3 -m json.tool 2>/dev/null | head -n 30 | tee -a "$LOG_FILE"
@@ -125,7 +126,7 @@ test_chat_completions() {
     section "Test 3: Chat Completions (Non-Streaming)"
 
     log "Sending POST request to ${BASE_URL}/v1/chat/completions (non-streaming)"
-    start_time=$(date +%s.%N)
+    start_time=$(date +%s)
 
     response=$(curl -s -w "\n%{http_code}" "${BASE_URL}/v1/chat/completions" \
         -H "Content-Type: application/json" \
@@ -140,8 +141,8 @@ test_chat_completions() {
     http_code=$(echo "$response" | tail -n 1)
     body=$(echo "$response" | sed '$d')
 
-    end_time=$(date +%s.%3N)
-    duration=$(awk "BEGIN {print ($end_time - $start_time)/1000}")
+    end_time=$(date +%s)
+    duration=$((end_time - start_time))
 
     if [ "$http_code" == "200" ]; then
         success "Chat completion successful"
@@ -178,6 +179,8 @@ test_streaming() {
 
     response_file="/tmp/stream_response_$$.txt"
 
+    start_time=$(date +%s)
+
     curl -N -w "\n%{http_code}" "${BASE_URL}/v1/chat/completions" \
         -H "Content-Type: application/json" \
         -d "{
@@ -200,14 +203,18 @@ test_streaming() {
 
     response=$(cat "$response_file")
     http_code=$(echo "$response" | tail -n 1)
-    body=$(echo "$response" | sed '$d' | head -n 20)
+    body=$(echo "$response" | sed '$d' | head -n 30)
 
     rm -f "$response_file"
 
-    end_time=$(date +%s.%N)
-    duration=$(python3 -c "print(f'{(float(\"$end_time\") - float(\"$start_time\")):.3f}')")
+    end_time=$(date +%s)
+    duration=$((end_time - start_time))
 
-    if echo "$http_code" | grep -q "200" || [ -n "$body" ]; then
+    	# For streaming, body content is more important than http_code
+    	# Remove curl progress output from body
+    	body=$(echo "$body" | grep -v "^  " | grep -v "%" | grep -v "Dload")
+
+    	if [ -n "$body" ]; then
         success "Streaming response received"
         log "Stream duration: ${duration}s"
 
@@ -215,20 +222,19 @@ test_streaming() {
         if echo "$body" | grep -q "^data: "; then
             success "SSE format is correct"
 
-            # Count chunks
-            chunk_count=$(echo "$body" | grep -c "^data: " || echo "0")
+            	# Count chunks (remove curl progress first)
+            	clean_body=$(echo "$body" | grep -v "^  " | grep -v "%" | grep -v "Dload" | grep -v "Total")
+            	chunk_count=$(echo "$clean_body" | grep -c "^data: " || echo "0")
             log "Number of chunks: $chunk_count"
 
-            # Check if contains [DONE]
             # Check for stream completion
-            if echo "$body" | grep -q "data: \[DONE\]"; then
-              success "Stream completed with [DONE] marker"
+            	if echo "$clean_body" | grep -q "data: \[DONE\]"; then
+                success "Stream completed with [DONE] marker"
 
-              # Show first few chunks
-              log "First few chunks:"
-              curl_result=$(echo "$body" | grep "^data:" | head -n 3)
-              echo "$curl_result" | tee -a "$LOG_FILE"
-              return 0
+                # Show first few chunks
+                log "First few chunks:"
+                	echo "$clean_body" | grep "^data:" | head -n 3 | tee -a "$LOG_FILE"
+                return 0
             else
                 warn "Stream did not contain [DONE] marker"
                 return 1
@@ -283,15 +289,21 @@ main() {
     log "Waiting for service to be ready..."
     sleep 3
 
-    max_attempts=10
+    max_attempts=30
     attempt=0
     while [ $attempt -lt $max_attempts ]; do
-        if check_port; then
-            success "Service is listening on port $PORT"
+        # Use HTTP health check for more reliable detection
+        health_response=$(curl -s -w "%{http_code}" "${BASE_URL}/health" 2>&1)
+        http_code=$(echo "$health_response" | tail -c 3)
+
+        if [ "$http_code" == "200" ]; then
+            success "Service is ready and responding"
             break
         else
-            log "Waiting... ($((attempt+1))/$max_attempts)"
-            sleep 2
+            if [ $((attempt % 5)) -eq 0 ]; then
+                log "Waiting for service... ($((attempt+1))/$max_attempts)"
+            fi
+            sleep 1
             attempt=$((attempt+1))
         fi
     done
@@ -307,32 +319,24 @@ main() {
     total_tests=0
     passed_tests=0
 
-    # Test 1: Health
+    # Test all interfaces
+    section "Step 3: Running Tests"
+
+    # Run each test, track results
+    test_health && passed_tests=$((passed_tests+1))
     total_tests=$((total_tests+1))
-    if test_health; then
-        passed_tests=$((passed_tests+1))
-    fi
     sleep 1
 
-    # Test 2: Models
+    test_models && passed_tests=$((passed_tests+1))
     total_tests=$((total_tests+1))
-    if test_models; then
-        passed_tests=$((passed_tests+1))
-    fi
     sleep 1
 
-    # Test 3: Chat Completions
+    test_chat_completions && passed_tests=$((passed_tests+1))
     total_tests=$((total_tests+1))
-    if test_chat_completions; then
-        passed_tests=$((passed_tests+1))
-    fi
     sleep 1
 
-    # Test 4: Streaming
+    test_streaming && passed_tests=$((passed_tests+1))
     total_tests=$((total_tests+1))
-    if test_streaming; then
-        passed_tests=$((passed_tests+1))
-    fi
 
     # Generate report
     section "Test Summary Report"
@@ -345,6 +349,8 @@ main() {
         exit_code=0
     else
         error "Some tests failed. Please check the logs."
+        # Keep service running for debugging if tests fail
+        warn "Service is still running for debugging. Use './stop.sh' to stop it."
         exit_code=1
     fi
 

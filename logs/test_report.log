@@ -4,16 +4,29 @@
 [0;34mStep 1: Stop Existing Service[0m
 [0;34m============================================================[0m
 
-[0;32m[INFO][0m No existing service running
+[0;32m[INFO][0m Port 8787 is in use, stopping existing service
+Stopping server...
+❌ Server is still running, forcing kill...
+✅ Server stopped successfully
 
 [0;34m============================================================[0m
 [0;34mStep 2: Start New Service[0m
 [0;34m============================================================[0m
 
 [0;32m[INFO][0m Starting service with new API key...
-[0;32m[INFO][0m Service started with PID: 38090
+[0;32m[INFO][0m Service started with PID: 40902
 [0;32m[INFO][0m Waiting for service to be ready...
-[0;32m[SUCCESS][0m Service is listening on port 8787
+[0;32m[INFO][0m Waiting for service... (1/30)
+[0;32m[INFO][0m Waiting for service... (6/30)
+[0;32m[INFO][0m Waiting for service... (11/30)
+[0;32m[INFO][0m Waiting for service... (16/30)
+[0;32m[INFO][0m Waiting for service... (21/30)
+[0;32m[INFO][0m Waiting for service... (26/30)
+
+[0;34m============================================================[0m
+[0;34mStep 3: Running Tests[0m
+[0;34m============================================================[0m
+
 
 [0;34m============================================================[0m
 [0;34mStep 3: Running Tests[0m
@@ -26,9 +39,9 @@
 
 [0;32m[INFO][0m Sending GET request to http://localhost:8787/health
 [0;32m[SUCCESS][0m Health check successful
-[0;32m[INFO][0m Response: {"status": "healthy", "timestamp": "2026-04-26T21:55:00.424321", "google_api_reachable": true}
-[0;32m[INFO][0m Response time: s
-[0;32m[SUCCESS][0m Google API is reachable
+[0;32m[INFO][0m Response: {"status": "healthy", "timestamp": "2026-04-26T22:29:24.671467", "google_api_reachable": false}
+[0;32m[INFO][0m Response time: 1s
+[1;33m[WARN][0m Google API is not reachable
 
 [0;34m============================================================[0m
 [0;34mTest 2: Model List Interface[0m
@@ -36,7 +49,7 @@
 
 [0;32m[INFO][0m Sending GET request to http://localhost:8787/v1/models
 [0;32m[SUCCESS][0m Model list retrieved successfully
-[0;32m[INFO][0m Response time: 1777210s
+[0;32m[INFO][0m Response time: 2s
 [1;33m[WARN][0m No models found in response
 
 [0;34m============================================================[0m
@@ -44,8 +57,8 @@
 [0;34m============================================================[0m
 
 [0;32m[INFO][0m Sending POST request to http://localhost:8787/v1/chat/completions (non-streaming)
-[0;31m[ERROR][0m Chat completion failed with HTTP code: 500
-[0;32m[INFO][0m Response: {"error": {"message": "IncompleteRead(0 bytes read)", "type": "server_error", "code": 500}}
+[0;31m[ERROR][0m Chat completion failed with HTTP code: 403
+[0;32m[INFO][0m Response: {"error": {"message": "Your API key was reported as leaked. Please use another API key.", "type": "api_error", "code": 403}}
 
 [0;34m============================================================[0m
 [0;34mTest 4: Chat Completions (Streaming/SSE)[0m
@@ -53,21 +66,18 @@
 
 [0;32m[INFO][0m Sending POST request to http://localhost:8787/v1/chat/completions (streaming)
 [0;32m[SUCCESS][0m Streaming response received
-[0;32m[INFO][0m Stream duration: s
-[0;32m[SUCCESS][0m SSE format is correct
-[0;32m[INFO][0m Number of chunks: 1
-[0;32m[SUCCESS][0m Stream completed with [DONE] marker
-[0;32m[INFO][0m First few chunks:
-data: [DONE]
+[0;32m[INFO][0m Stream duration: 5s
+[1;33m[WARN][0m Response does not seem to be in SSE format
 
 [0;34m============================================================[0m
 [0;34mTest Summary Report[0m
 [0;34m============================================================[0m
 
 Total Tests: 4
-Passed: 2
-Failed: 2
+Passed: 0
+Failed: 4
 [0;31m[ERROR][0m Some tests failed. Please check the logs.
+[1;33m[WARN][0m Service is still running for debugging. Use './stop.sh' to stop it.
 [0;32m[INFO][0m Full test report available at: logs/test_report.log
 [0;32m[INFO][0m Server logs available at: logs/server.log
-[0;32m[INFO][0m Tests completed at Sun Apr 26 21:55:18 CST 2026
+[0;32m[INFO][0m Tests completed at Sun Apr 26 22:29:39 CST 2026

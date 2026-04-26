@@ -1,32 +1,37 @@
-2026-04-24 00:33:04,234 - INFO - Starting server on port 8787
-2026-04-24 00:33:04,241 - INFO - Server started at http://0.0.0.0:8787
-2026-04-24 00:33:19,936 - INFO - Request: {"timestamp": "2026-04-24T00:33:19.936739", "method": "GET", "path": "/health", "status": 200, "duration_ms": 1576.06}
-2026-04-24 00:33:23,046 - INFO - Fetched 50 models from Google API
-2026-04-24 00:33:23,047 - INFO - Request: {"timestamp": "2026-04-24T00:33:23.047220", "method": "GET", "path": "/v1/models", "status": 200, "duration_ms": 3088.13}
-2026-04-24 00:33:26,513 - INFO - Request: {"timestamp": "2026-04-24T00:33:26.513185", "method": "GET", "path": "/health", "status": 200, "duration_ms": 1597.46}
-2026-04-24 00:33:26,537 - INFO - Request: {"timestamp": "2026-04-24T00:33:26.537469", "method": "GET", "path": "/v1/models", "status": 200, "duration_ms": 0.38}
-2026-04-24 01:16:37,018 - ERROR - Failed to fetch models: HTTP Error 403: Forbidden
-2026-04-24 01:16:37,020 - WARNING - Using stale cache due to fetch failure
-2026-04-24 01:16:37,021 - INFO - Request: {"timestamp": "2026-04-24T01:16:37.021682", "method": "GET", "path": "/v1/models", "status": 200, "duration_ms": 1627.73}
-2026-04-24 01:16:42,061 - ERROR - Failed to fetch models: HTTP Error 403: Forbidden
-2026-04-24 01:16:42,061 - WARNING - Using stale cache due to fetch failure
-2026-04-24 01:16:42,062 - INFO - Request: {"timestamp": "2026-04-24T01:16:42.062047", "method": "GET", "path": "/v1/models", "status": 200, "duration_ms": 1337.12}
-2026-04-24 01:16:50,210 - ERROR - Failed to fetch models: HTTP Error 403: Forbidden
-2026-04-24 01:16:50,211 - WARNING - Using stale cache due to fetch failure
-2026-04-24 01:16:50,212 - INFO - Request: {"timestamp": "2026-04-24T01:16:50.212119", "method": "GET", "path": "/v1/models", "status": 200, "duration_ms": 1593.61}
-2026-04-26 18:55:07,188 - ERROR - Failed to fetch models: HTTP Error 400: Bad Request
-2026-04-26 18:55:07,192 - WARNING - Using stale cache due to fetch failure
-2026-04-26 18:55:07,195 - INFO - Request: {"timestamp": "2026-04-26T18:55:07.195314", "method": "GET", "path": "/v1/models", "status": 200, "duration_ms": 803.56}
-2026-04-26 18:55:07,241 - INFO - Request: {"timestamp": "2026-04-26T18:55:07.241240", "method": "GET", "path": "/favicon.ico", "status": 404, "duration_ms": 0.19}
-2026-04-26 18:55:37,495 - ERROR - Failed to fetch models: HTTP Error 400: Bad Request
-2026-04-26 18:55:37,495 - WARNING - Using stale cache due to fetch failure
-2026-04-26 18:55:37,498 - INFO - Request: {"timestamp": "2026-04-26T18:55:37.498132", "method": "GET", "path": "/v1/models", "status": 200, "duration_ms": 770.7}
-2026-04-26 19:00:11,796 - INFO - Request: {"timestamp": "2026-04-26T19:00:11.796492", "method": "POST", "path": "/v1/models", "status": 200, "duration_ms": 1.27}
-2026-04-26 19:00:13,967 - INFO - Request: {"timestamp": "2026-04-26T19:00:13.967670", "method": "POST", "path": "/v1/models", "status": 200, "duration_ms": 0.24}
-2026-04-26 19:00:18,931 - INFO - Request: {"timestamp": "2026-04-26T19:00:18.931820", "method": "POST", "path": "/v1/models", "status": 200, "duration_ms": 0.18}
-2026-04-26 19:00:29,264 - ERROR - Failed to fetch models: HTTP Error 400: Bad Request
-2026-04-26 19:00:29,265 - WARNING - Using stale cache due to fetch failure
-2026-04-26 19:00:29,266 - INFO - Request: {"timestamp": "2026-04-26T19:00:29.266016", "method": "GET", "path": "/v1/models", "status": 200, "duration_ms": 812.11}
-2026-04-26 19:02:57,575 - ERROR - Failed to fetch models: HTTP Error 400: Bad Request
-2026-04-26 19:02:57,576 - WARNING - Using stale cache due to fetch failure
-2026-04-26 19:02:57,579 - INFO - Request: {"timestamp": "2026-04-26T19:02:57.578901", "method": "GET", "path": "/v1/models", "status": 200, "duration_ms": 766.75}
+2026-04-26 22:28:12,226 - INFO - Starting server on port 8787
+2026-04-26 22:28:12,540 - INFO - Server started at http://0.0.0.0:8787
+2026-04-26 22:28:15,119 - INFO - Request: {"timestamp": "2026-04-26T22:28:15.119489", "method": "GET", "path": "/health", "status": 200, "duration_ms": 840.89}
+2026-04-26 22:28:17,318 - INFO - Request: {"timestamp": "2026-04-26T22:28:17.318525", "method": "GET", "path": "/health", "status": 200, "duration_ms": 1046.73}
+2026-04-26 22:28:19,268 - INFO - Request: {"timestamp": "2026-04-26T22:28:19.268479", "method": "GET", "path": "/health", "status": 200, "duration_ms": 824.32}
+2026-04-26 22:28:21,937 - INFO - Request: {"timestamp": "2026-04-26T22:28:21.936951", "method": "GET", "path": "/health", "status": 200, "duration_ms": 1548.92}
+2026-04-26 22:28:23,893 - INFO - Request: {"timestamp": "2026-04-26T22:28:23.892761", "method": "GET", "path": "/health", "status": 200, "duration_ms": 818.0}
+2026-04-26 22:28:26,983 - INFO - Request: {"timestamp": "2026-04-26T22:28:26.983035", "method": "GET", "path": "/health", "status": 200, "duration_ms": 1859.14}
+2026-04-26 22:28:29,538 - INFO - Request: {"timestamp": "2026-04-26T22:28:29.538524", "method": "GET", "path": "/health", "status": 200, "duration_ms": 1337.19}
+2026-04-26 22:28:32,099 - INFO - Request: {"timestamp": "2026-04-26T22:28:32.099659", "method": "GET", "path": "/health", "status": 200, "duration_ms": 1192.11}
+2026-04-26 22:28:34,377 - INFO - Request: {"timestamp": "2026-04-26T22:28:34.377396", "method": "GET", "path": "/health", "status": 200, "duration_ms": 1091.85}
+2026-04-26 22:28:36,964 - INFO - Request: {"timestamp": "2026-04-26T22:28:36.964531", "method": "GET", "path": "/health", "status": 200, "duration_ms": 1383.07}
+2026-04-26 22:28:38,914 - INFO - Request: {"timestamp": "2026-04-26T22:28:38.913391", "method": "GET", "path": "/health", "status": 200, "duration_ms": 809.4}
+2026-04-26 22:28:41,295 - INFO - Request: {"timestamp": "2026-04-26T22:28:41.295593", "method": "GET", "path": "/health", "status": 200, "duration_ms": 1119.76}
+2026-04-26 22:28:43,991 - INFO - Request: {"timestamp": "2026-04-26T22:28:43.991491", "method": "GET", "path": "/health", "status": 200, "duration_ms": 1424.82}
+2026-04-26 22:28:46,530 - INFO - Request: {"timestamp": "2026-04-26T22:28:46.530339", "method": "GET", "path": "/health", "status": 200, "duration_ms": 1356.25}
+2026-04-26 22:28:48,770 - INFO - Request: {"timestamp": "2026-04-26T22:28:48.770081", "method": "GET", "path": "/health", "status": 200, "duration_ms": 1089.26}
+2026-04-26 22:28:51,489 - INFO - Request: {"timestamp": "2026-04-26T22:28:51.489131", "method": "GET", "path": "/health", "status": 200, "duration_ms": 1513.22}
+2026-04-26 22:28:53,953 - INFO - Request: {"timestamp": "2026-04-26T22:28:53.952769", "method": "GET", "path": "/health", "status": 200, "duration_ms": 1322.25}
+2026-04-26 22:28:55,889 - INFO - Request: {"timestamp": "2026-04-26T22:28:55.888987", "method": "GET", "path": "/health", "status": 200, "duration_ms": 810.96}
+2026-04-26 22:28:58,103 - INFO - Request: {"timestamp": "2026-04-26T22:28:58.102942", "method": "GET", "path": "/health", "status": 200, "duration_ms": 1091.47}
+2026-04-26 22:29:00,041 - INFO - Request: {"timestamp": "2026-04-26T22:29:00.041048", "method": "GET", "path": "/health", "status": 200, "duration_ms": 810.77}
+2026-04-26 22:29:02,242 - INFO - Request: {"timestamp": "2026-04-26T22:29:02.242142", "method": "GET", "path": "/health", "status": 200, "duration_ms": 1077.58}
+2026-04-26 22:29:04,461 - INFO - Request: {"timestamp": "2026-04-26T22:29:04.461694", "method": "GET", "path": "/health", "status": 200, "duration_ms": 1089.89}
+2026-04-26 22:29:06,642 - INFO - Request: {"timestamp": "2026-04-26T22:29:06.642121", "method": "GET", "path": "/health", "status": 200, "duration_ms": 1067.77}
+2026-04-26 22:29:09,118 - INFO - Request: {"timestamp": "2026-04-26T22:29:09.117939", "method": "GET", "path": "/health", "status": 200, "duration_ms": 1361.93}
+2026-04-26 22:29:11,059 - INFO - Request: {"timestamp": "2026-04-26T22:29:11.059398", "method": "GET", "path": "/health", "status": 200, "duration_ms": 797.11}
+2026-04-26 22:29:13,248 - INFO - Request: {"timestamp": "2026-04-26T22:29:13.247799", "method": "GET", "path": "/health", "status": 200, "duration_ms": 1073.0}
+2026-04-26 22:29:15,233 - INFO - Request: {"timestamp": "2026-04-26T22:29:15.233165", "method": "GET", "path": "/health", "status": 200, "duration_ms": 816.04}
+2026-04-26 22:29:17,738 - INFO - Request: {"timestamp": "2026-04-26T22:29:17.738650", "method": "GET", "path": "/health", "status": 200, "duration_ms": 1357.91}
+2026-04-26 22:29:20,236 - INFO - Request: {"timestamp": "2026-04-26T22:29:20.236556", "method": "GET", "path": "/health", "status": 200, "duration_ms": 1389.07}
+2026-04-26 22:29:22,696 - INFO - Request: {"timestamp": "2026-04-26T22:29:22.696415", "method": "GET", "path": "/health", "status": 200, "duration_ms": 1355.17}
+2026-04-26 22:29:25,707 - INFO - Request: {"timestamp": "2026-04-26T22:29:25.707149", "method": "GET", "path": "/health", "status": 200, "duration_ms": 1035.69}
+2026-04-26 22:29:29,135 - ERROR - Failed to fetch models: HTTP Error 403: Forbidden
+2026-04-26 22:29:29,139 - INFO - Request: {"timestamp": "2026-04-26T22:29:29.138911", "method": "GET", "path": "/v1/models", "status": 200, "duration_ms": 1626.65}
+2026-04-26 22:29:32,879 - INFO - Request: {"timestamp": "2026-04-26T22:29:32.879567", "method": "POST", "path": "/v1/chat/completions", "status": 200, "duration_ms": 1865.12}
+2026-04-26 22:29:35,471 - INFO - Request: {"timestamp": "2026-04-26T22:29:35.470572", "method": "POST", "path": "/v1/chat/completions", "status": 200, "duration_ms": 1213.75}

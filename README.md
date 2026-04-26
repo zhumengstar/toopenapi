@@ -16,25 +16,65 @@
 ## 快速开始
 
 ### 方式一：直接运行
-
 ```bash
 python3 server.py
 ```
-
+ 
 ### 方式二：使用部署脚本
-
 ```bash
 # 启动服务
 ./start.sh
-
+ 
 # 停止服务
 ./stop.sh
-
+ 
 # 重启服务
 ./restart.sh
-
+ 
 # 查看状态
 ./status.sh
+```
+ 
+### 方式三：Docker 容器化部署（推荐）
+ 
+#### 使用 Docker Compose（一键部署）
+ 
+```bash
+# 1. 配置环境变量
+cp .env.example .env
+# 编辑 .env 文件，设置 GOOGLE_API_KEY
+ 
+# 2. 启动服务
+docker-compose up -d
+ 
+# 3. 查看日志
+docker-compose logs -f
+ 
+# 4. 停止服务
+docker-compose down
+```
+ 
+#### 使用一键部署脚本
+ 
+```bash
+# 自动检查环境、配置和启动服务
+./docker-start.sh
+```
+ 
+#### Docker 常用命令
+ 
+```bash
+# 查看容器状态
+docker-compose ps
+ 
+# 重启服务
+docker-compose restart
+ 
+# 重建并启动
+docker-compose up -d --build
+ 
+# 查看最后 100 条日志
+docker-compose logs --tail=100
 ```
 
 ## API 接口

@@ -1,0 +1,7 @@
+aiohttp>=3.9.0
+```
+
+这非常简单，因为主要依赖就是 aiohttp。 </think> ```
+Toopenapi/requirements_async.txt
+```
+aiohttp>=3.9.0

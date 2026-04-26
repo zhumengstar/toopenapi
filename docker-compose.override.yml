@@ -1,0 +1,84 @@
+# Docker Compose 本地开发覆盖配置
+# 使用方法：docker-compose -f docker-compose.yml -f docker-compose.override.yml up
+
+version: '3.8'
+
+services:
+  google-ai-openai-proxy:
+    # 开发模式：使用当前代码目录
+    volumes:
+      - ./:/app
+      - ./logs:/app/logs
+      - /tmp:/tmp
+
+    # 开发模式：使用调试日志级别
+    environment:
+      - LOG_LEVEL=DEBUG
+
+    # 开发模式：映射调试端口
+    ports:
+      - "${PORT:-8787}:8787"
+      - "8888:8787"  # 额外端口用于测试
+
+    # 开发模式：不过期重启策略
+    restart: "no"
+
+    # 开发模式：热重载（需要应用支持）
+    # 如果使用 watch 模式，可以添加以下配置
+    # watch:
+    #   - action: sync
+    #     path: ./server.py
+    #     target: /app/server.py
+    #   - action: rebuild
+    #     path: ./requirements.txt
+
+    # 开发模式：禁用资源限制
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 1G
+    #     reservations:
+    #       memory: 256M
+
+    # 开发模式：更多调试选项
+    command: ["python", "server.py"]
+
+    # 开发模式：使用调试镜像标签
+    # image: google-ai-openai-proxy:dev
+
+    # 开发模式：启用交互式终端
+    stdin_open: true
+    tty: true
+
+# 开发模式：额外服务
+# services:
+#   # 数据库（如果需要）
+#   db:
+#     image: postgres:15
+#     environment:
+#       POSTGRES_DB: proxy_dev
+#       POSTGRES_USER: dev
+#       POSTGRES_PASSWORD: dev
+#     ports:
+#       - "5432:5432"
+#     volumes:
+#       - pgdata:/var/lib/postgresql/data
+
+#   # Redis（如果需要缓存）
+#   redis:
+#     image: redis:7-alpine
+#     ports:
+#       - "6379:6379"
+#     volumes:
+#       - redis_data:/data
+
+# 开发模式：网络配置
+networks:
+  default:
+    driver: bridge
+    # internal: false  # 允许外部访问
+
+# 开发模式：数据卷
+# volumes:
+#   pgdata:
+#   redis_data:
